@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		profilePicture: {
+			type: String,
+			default: "https://avatarfiles.alphacoders.com/186/186851.jpg",
+		},
 	},
 	{
 		timestamps: true,
