@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoute from "./routes/user.route.js";
 import authRoute from "./routes/auth.route.js";
-
+import cookieParser from "cookie-parser";
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -17,7 +17,7 @@ mongoose
 app.listen(3000, () => {
 	console.log("Server on running on 3000");
 });
-
+app.use(cookieParser()); //cookie parser for reading the cookies
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/auth", authRoute);
 
