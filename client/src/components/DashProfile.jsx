@@ -8,6 +8,9 @@ import {
 	deleteUserFailure,
 	deleteUserSuccess,
 	deleteUseStart,
+	signOutStart,
+	signOutSuccess,
+	signOutFailure,
 } from "../redux/user/userSlice";
 
 import {
@@ -88,7 +91,7 @@ const DashProfile = () => {
 		}
 	};
 
-	//delete use
+	//delete user
 	const handleDeleteUser = async () => {
 		setShowModal(false);
 
@@ -105,6 +108,22 @@ const DashProfile = () => {
 			}
 		} catch (err) {
 			dispatch(deleteUserFailure(err.message));
+		}
+	};
+	//sign out User
+	const signOutHandler = async () => {
+		try {
+			dispatch(signOutStart());
+
+			const response = await fetch(`/api/v1/user/signout/${currentUser._id}`, {
+				method: "POST",
+			});
+			const data = await response.json();
+			if (!response.ok) {
+				dispatch(signOutFailure(data.message));
+			} else dispatch(signOutSuccess());
+		} catch (err) {
+			dispatch(signOutFailure(err.message));
 		}
 	};
 
@@ -231,7 +250,9 @@ const DashProfile = () => {
 				<span className="cursor-pointer" onClick={() => setShowModal(true)}>
 					Delete Account
 				</span>
-				<span className="cursor-pointer">Sign Out</span>
+				<span className="cursor-pointer" onClick={signOutHandler}>
+					Sign Out
+				</span>
 			</div>
 			{userUpdateSuccess && (
 				<Alert className="mt-5" color="success">
